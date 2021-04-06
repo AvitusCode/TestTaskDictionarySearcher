@@ -2,7 +2,7 @@
 #define DICTIONARY_H
 
 #include <QWidget>
-#include <QTextEdit>
+#include <QLineEdit>
 #include <QPlainTextEdit>
 #include <QTimerEvent>
 
@@ -26,14 +26,15 @@ protected:
 private slots:
     void slotText();
 private:
-    QTextEdit *edit1;
+    QLineEdit *edit1;
     QPlainTextEdit *edit2;
     char *text_buffer;
     AhoCore ac;
 
     int timerId;
     bool paused, text_changed;
-    static const int DELAY = 1000; // a little delay for the user.
+    static const int DELAY    = 1000; // a little delay for the user.
+    static const int MAX_WORD = 50;
 
     Ui::Dictionary *ui;
 };

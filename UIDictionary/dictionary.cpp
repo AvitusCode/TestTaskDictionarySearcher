@@ -10,17 +10,20 @@ Dictionary::Dictionary(QWidget *parent) : QWidget(parent), paused(true), text_ch
 {
     ui->setupUi(this);
 
-    edit1 = new QTextEdit("",this);
+    edit1 = new QLineEdit(this);
     edit2 = new QPlainTextEdit("",this);
 
+    edit1->setMaxLength(MAX_WORD);
     edit2->setReadOnly(true);
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->addWidget(edit1);
+    layout->setAlignment(edit1, Qt::AlignTop);
     layout->addWidget(edit2);
+
     setLayout(layout);
 
-    connect(edit1, SIGNAL(textChanged()), this, SLOT(slotText()));
+    connect(edit1, &QLineEdit::textChanged, this, &Dictionary::slotText);
 
     timerId = startTimer(DELAY);
 }
@@ -63,7 +66,7 @@ void Dictionary::slotText()
     paused = true;
     text_changed = true;
 
-    QString text = edit1->toPlainText(); // Получаем и приводим текст из поля ввода к более удобному представлению
+    QString text = edit1->text(); // Получаем и приводим текст из поля ввода к более удобному представлению
     QRegExp reg("[\\s|\\n|\\r|\\.|,|!|\\?|:|;]+");
     QStringList list = text.split(reg, Qt::SkipEmptyParts);
 
